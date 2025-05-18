@@ -122,3 +122,66 @@ EMAIL_USERNAME
 EMAIL_PASSWORD
 FROM_NAME
 FROM_EMAIL
+
+### Testing Your API
+
+Once deployed, you can test your API using tools like Postman or Insomnia. Here are some key endpoints to test:
+
+1. **Authentication**
+
+```plaintext
+POST /api/auth/register
+POST /api/auth/login
+GET /api/auth/me (with token)
+```
+
+2. **Campaign Management**
+
+```plaintext
+POST /api/campaigns (admin only)
+GET /api/campaigns
+GET /api/campaigns/active
+PUT /api/campaigns/:id/status (admin only)
+```
+
+3. **Application Submission**
+
+```plaintext
+POST /api/applications
+GET /api/applications/my-applications
+GET /api/applications/:id
+```
+
+### Initial Setup
+
+Before your API is fully functional, you'll need to:
+
+1. **Create a Superadmin User**
+
+1. You can modify the first registered user in your MongoDB database to have the role "superadmin"
+1. Alternatively, you can create a one-time setup route that creates a superadmin (remember to disable it after use)
+
+1. **Test File Uploads**
+
+1. Ensure your Cloudinary configuration is working by testing image and document uploads
+1. Verify that the URLs are correctly stored in your database
+
+1. **Verify Email Notifications**
+
+1. Send a test email to ensure your email configuration is working
+1. Check that notifications are being sent for important events
+
+### Security Recommendations
+
+1. **Rate Limiting**
+
+1. The API already includes rate limiting, but you may want to adjust the limits based on your needs
+
+1. **CORS Configuration**
+
+1. Update the CORS settings in `app.js` to only allow requests from your frontend domain
+
+1. **Regular Updates**
+
+1. Keep your dependencies updated to patch security vulnerabilities
+1. Regularly review your code for potential security issues
