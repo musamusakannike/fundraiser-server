@@ -5,6 +5,12 @@ import morgan from "morgan"
 import rateLimit from "express-rate-limit"
 import dotenv from "dotenv"
 import authRoutes from "./routes/auth.routes.js"
+import userRoutes from "./routes/user.routes.js"
+import campaignRoutes from "./routes/campaign.routes.js"
+import applicationRoutes from "./routes/application.routes.js"
+import notificationRoutes from "./routes/notification.routes.js"
+import messageRoutes from "./routes/message.routes.js"
+import dashboardRoutes from "./routes/dashboard.routes.js"
 
 // Load environment variables
 dotenv.config()
@@ -33,6 +39,12 @@ app.use(express.urlencoded({ extended: true }))
 
 // API routes
 app.use("/api/auth", authRoutes)
+app.use("/api/users", userRoutes)
+app.use("/api/campaigns", campaignRoutes)
+app.use("/api/applications", applicationRoutes)
+app.use("/api/notifications", notificationRoutes)
+app.use("/api/messages", messageRoutes)
+app.use("/api/dashboard", dashboardRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {

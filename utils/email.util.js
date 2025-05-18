@@ -1,7 +1,7 @@
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
+import nodemailer from "nodemailer"
+import dotenv from "dotenv"
 
-dotenv.config();
+dotenv.config()
 
 // Create transporter
 const transporter = nodemailer.createTransport({
@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USERNAME,
     pass: process.env.EMAIL_PASSWORD,
   },
-});
+})
 
 // Send email function
 export const sendEmail = async (options) => {
@@ -19,10 +19,10 @@ export const sendEmail = async (options) => {
     to: options.email,
     subject: options.subject,
     html: options.message,
-  };
+  }
 
-  await transporter.sendMail(mailOptions);
-};
+  await transporter.sendMail(mailOptions)
+}
 
 // Email templates
 export const emailTemplates = {
@@ -42,7 +42,7 @@ export const emailTemplates = {
         <p>If you have any questions, please don't hesitate to contact us.</p>
         <p>Best regards,<br>The Islamic Fundraiser Team</p>
       </div>
-    `;
+    `
   },
 
   // New application notification to admins
@@ -61,7 +61,7 @@ export const emailTemplates = {
         <p>Please log in to the admin dashboard to review this application.</p>
         <p>Best regards,<br>The Islamic Fundraiser Team</p>
       </div>
-    `;
+    `
   },
 
   // Application status update to user
@@ -70,18 +70,12 @@ export const emailTemplates = {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 5px;">
         <h2 style="color: #333;">Application Status Update</h2>
         <p>Dear ${applicationDetails.fullName},</p>
-        <p>Your application "${applicationDetails.title}" has been <strong>${
-      applicationDetails.status
-    }</strong>.</p>
-        ${
-          applicationDetails.message
-            ? `<p><strong>Message from admin:</strong> ${applicationDetails.message}</p>`
-            : ""
-        }
+        <p>Your application "${applicationDetails.title}" has been <strong>${applicationDetails.status}</strong>.</p>
+        ${applicationDetails.message ? `<p><strong>Message from admin:</strong> ${applicationDetails.message}</p>` : ""}
         <p>You can log in to your account to view more details.</p>
         <p>Best regards,<br>The Islamic Fundraiser Team</p>
       </div>
-    `;
+    `
   },
 
   // New message notification
@@ -98,6 +92,6 @@ export const emailTemplates = {
         <p>Please log in to your account to respond.</p>
         <p>Best regards,<br>The Islamic Fundraiser Team</p>
       </div>
-    `;
+    `
   },
-};
+}
