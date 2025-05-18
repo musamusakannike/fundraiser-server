@@ -46,7 +46,7 @@ export const applicationValidation = [
   body("description").trim().notEmpty().withMessage("Application description is required"),
   body("fullName").trim().notEmpty().withMessage("Full name is required"),
   body("email").isEmail().withMessage("Please provide a valid email address"),
-  body("campaign").isMongoId().withMessage("Valid campaign ID is required"),
+  body("campaign").optional().isMongoId().withMessage("Campaign ID must be valid if provided"),
 ]
 
 // Message validation rules

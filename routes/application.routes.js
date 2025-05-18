@@ -1,4 +1,4 @@
-import express from "express"
+import express from "express";
 import {
   submitApplication,
   getApplications,
@@ -6,24 +6,39 @@ import {
   getApplicationById,
   updateApplicationStatus,
   deleteApplication,
-} from "../controllers/application.controller.js"
-import { protect, isAdminOrSuperadmin } from "../middleware/auth.middleware.js"
-import { applicationValidation, validate } from "../middleware/validator.middleware.js"
-import { uploadApplicationDocs, handleUploadErrors } from "../middleware/upload.middleware.js"
+  assignCampaign, // Add this
+} from "../controllers/application.controller.js";
+import { protect, isAdminOrSuperadmin } from "../middleware/auth.middleware.js";
+import {
+  applicationValidation,
+  validate,
+} from "../middleware/validator.middleware.js";
+import {
+  uploadApplicationDocs,
+  handleUploadErrors,
+} from "../middleware/upload.middleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
 // All routes are protected
-router.use(protect)
+router.use(protect);
 
 // User routes
-router.post("/", uploadApplicationDocs, handleUploadErrors, applicationValidation, validate, submitApplication)
-router.get("/my-applications", getMyApplications)
-router.get("/:id", getApplicationById)
+router.post(
+  "/",
+  uploadApplicationDocs,
+  handleUploadErrors,
+  applicationValidation,
+  validate,
+  submitApplication
+);
+router.get("/my-applications", getMyApplications);
+router.get("/:id", getApplicationById);
 
 // Admin and superadmin routes
-router.get("/", isAdminOrSuperadmin, getApplications)
-router.put("/:id/status", isAdminOrSuperadmin, updateApplicationStatus)
-router.delete("/:id", isAdminOrSuperadmin, deleteApplication)
+router.get("/", isAdminOrSuperadmin, getApplications);
+router.put("/:id/status", isAdminOrSuperadmin, updateApplicationStatus);
+router.delete("/:id", isAdminOrSuperadmin, deleteApplication);
+router.put("/:id/assign-campaign", isAdminOrSuperadmin, assignCampaign);
 
-export default router
+export default router;

@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const applicationSchema = new mongoose.Schema(
   {
@@ -27,7 +27,10 @@ const applicationSchema = new mongoose.Schema(
       required: [true, "Email is required"],
       trim: true,
       lowercase: true,
-      match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, "Please provide a valid email address"],
+      match: [
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+        "Please provide a valid email address",
+      ],
     },
     additionalDetails: {
       type: String,
@@ -46,7 +49,7 @@ const applicationSchema = new mongoose.Schema(
     campaign: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Campaign",
-      required: true,
+      required: false, // Changed from true to false
     },
     createdAt: {
       type: Date,
@@ -61,16 +64,16 @@ const applicationSchema = new mongoose.Schema(
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  },
-)
+  }
+);
 
 // Virtual for messages
 applicationSchema.virtual("messages", {
   ref: "Message",
   localField: "_id",
   foreignField: "application",
-})
+});
 
-const Application = mongoose.model("Application", applicationSchema)
+const Application = mongoose.model("Application", applicationSchema);
 
-export default Application
+export default Application;

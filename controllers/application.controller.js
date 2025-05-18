@@ -11,21 +11,24 @@ export const submitApplication = async (req, res) => {
   try {
     const { title, description, fullName, email, additionalDetails, campaign: campaignId } = req.body
 
-    // Check if campaign exists and is active
-    const campaign = await Campaign.findById(campaignId)
+    // Check if campaign exists and is active if campaignId is provided
+    let campaign
+    if (campaignId) {
+      campaign = await Campaign.findById(campaignId)
 
-    if (!campaign) {
-      return res.status(404).json({
-        success: false,
-        message: "Campaign not found",
-      })
-    }
+      if (!campaign) {
+        return res.status(404).json({
+          success: false,
+          message: "Campaign not found",
+        })
+      }
 
-    if (campaign.status !== "active") {
-      return res.status(400).json({
-        success: false,
-        message: "Cannot apply to a non-active campaign",
-      })
+      if (campaign.status !== "active") {
+        return res.status(400).json({
+          success: false,
+          message: "Cannot apply to a non-active campaign",
+        })
+      }
     }
 
     // Get proof document URLs from multer middleware
@@ -39,7 +42,7 @@ export const submitApplication = async (req, res) => {
     }
 
     // Create application
-    const application = await Application.create({
+    const applicationData = {
       title,
       description,
       proofDocuments,
@@ -47,8 +50,14 @@ export const submitApplication = async (req, res) => {
       email,
       additionalDetails,
       user: req.user._id,
-      campaign: campaignId,
-    })
+    }
+
+    // Only add campaign if it exists
+    if (campaignId) {
+      applicationData.campaign = campaignId
+    }
+
+    const application = await Application.create(applicationData)
 
     // Create notifications for all admins
     const admins = await User.find({ role: { $in: ["admin", "superadmin"] } })
@@ -58,7 +67,7 @@ export const submitApplication = async (req, res) => {
       sender: req.user._id,
       type: "application_submitted",
       title: "New Application Submitted",
-      message: `A new application "${title}" has been submitted for campaign "${campaign.title}"`,
+      message: `A new application "${title}" has been submitted for campaign "${campaign?.title}"`,
       relatedTo: {
         model: "Application",
         id: application._id,
@@ -76,7 +85,7 @@ export const submitApplication = async (req, res) => {
           title,
           fullName,
           email,
-          campaignTitle: campaign.title,
+          campaignTitle: campaign?.title,
           description,
         }),
       })
@@ -309,6 +318,74 @@ export const deleteApplication = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error deleting application",
+      error: error.message,
+    })
+  }
+}
+
+// @desc    Assign campaign to application
+// @route   PUT /api/applications/:id/assign-campaign
+// @access  Private/Admin/Superadmin
+export const assignCampaign = async (req, res) => {
+  try {
+    const { campaignId } = req.body
+
+    if (!campaignId) {
+      return res.status(400).json({
+        success: false,
+        message: "Campaign ID is required",
+      })
+    }
+
+    // Check if campaign exists
+    const campaign = await Campaign.findById(campaignId)
+
+    if (!campaign) {
+      return res.status(404).json({
+        success: false,
+        message: "Campaign not found",
+      })
+    }
+
+    // Find application
+    let application = await Application.findById(req.params.id)
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: "Application not found",
+      })
+    }
+
+    // Update application with campaign
+    application = await Application.findByIdAndUpdate(
+      req.params.id,
+      { campaign: campaignId },
+      { new: true, runValidators: true },
+    ).populate("campaign", "title")
+
+    // Create notification for the user
+    await Notification.create({
+      recipient: application.user,
+      sender: req.user._id,
+      type: "application_response",
+      title: "Application Update",
+      message: `Your application "${application.title}" has been assigned to campaign "${campaign.title}"`,
+      relatedTo: {
+        model: "Application",
+        id: application._id,
+      },
+    })
+
+    res.status(200).json({
+      success: true,
+      message: "Campaign assigned to application successfully",
+      application,
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error assigning campaign to application",
       error: error.message,
     })
   }
