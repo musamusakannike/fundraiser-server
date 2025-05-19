@@ -1080,7 +1080,6 @@ description: "I would like to apply for assistance with the mosque project..."
 fullName: "John Doe"
 email: "john@example.com"
 additionalDetails: "Additional information about my application..."
-campaign: "60d21b4667d0d8992e610c90" (campaign ID)
 proofDocuments: [file1, file2, ...] (max 3 documents)
 ```
 
@@ -1103,7 +1102,6 @@ proofDocuments: [file1, file2, ...] (max 3 documents)
     "additionalDetails": "Additional information about my application...",
     "status": "pending",
     "user": "60d21b4667d0d8992e610c85",
-    "campaign": "60d21b4667d0d8992e610c90",
     "createdAt": "2023-06-23T09:15:00.000Z",
     "updatedAt": "2023-06-23T09:15:00.000Z"
   }
@@ -1115,7 +1113,6 @@ proofDocuments: [file1, file2, ...] (max 3 documents)
 - `201`: Application submitted successfully
 - `400`: Validation error, missing documents, or campaign not active
 - `401`: Not authenticated
-- `404`: Campaign not found
 - `500`: Server error
 
 
@@ -1163,10 +1160,6 @@ Authorization: Bearer <token>
         "_id": "60d21b4667d0d8992e610c85",
         "fullName": "John Doe",
         "email": "john@example.com"
-      },
-      "campaign": {
-        "_id": "60d21b4667d0d8992e610c90",
-        "title": "Help Build a Mosque in Lagos"
       },
       "createdAt": "2023-06-23T09:15:00.000Z",
       "updatedAt": "2023-06-23T09:15:00.000Z"
@@ -1218,11 +1211,6 @@ Authorization: Bearer <token>
       "additionalDetails": "Additional information about my application...",
       "status": "pending",
       "user": "60d21b4667d0d8992e610c85",
-      "campaign": {
-        "_id": "60d21b4667d0d8992e610c90",
-        "title": "Help Build a Mosque in Lagos",
-        "status": "active"
-      },
       "createdAt": "2023-06-23T09:15:00.000Z",
       "updatedAt": "2023-06-23T09:15:00.000Z"
     },
@@ -1273,11 +1261,6 @@ Authorization: Bearer <token>
       "_id": "60d21b4667d0d8992e610c85",
       "fullName": "John Doe",
       "email": "john@example.com"
-    },
-    "campaign": {
-      "_id": "60d21b4667d0d8992e610c90",
-      "title": "Help Build a Mosque in Lagos",
-      "status": "active"
     },
     "createdAt": "2023-06-23T09:15:00.000Z",
     "updatedAt": "2023-06-23T09:15:00.000Z",
@@ -1363,10 +1346,6 @@ Authorization: Bearer <token>
       "_id": "60d21b4667d0d8992e610c85",
       "fullName": "John Doe",
       "email": "john@example.com"
-    },
-    "campaign": {
-      "_id": "60d21b4667d0d8992e610c90",
-      "title": "Help Build a Mosque in Lagos"
     },
     "createdAt": "2023-06-23T09:15:00.000Z",
     "updatedAt": "2023-06-24T14:30:00.000Z"
