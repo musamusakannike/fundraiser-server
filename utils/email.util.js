@@ -94,4 +94,24 @@ export const emailTemplates = {
       </div>
     `
   },
+
+  // Reset password email
+  resetPasswordEmail: (name, resetToken) => {
+    return `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 5px;">
+        <h2 style="color: #333;">Password Reset Request</h2>
+        <p>Dear ${name},</p>
+        <p>We received a request to reset your password. If you didn't make this request, please ignore this email.</p>
+        <p>To reset your password, please use the following link:</p>
+        <p style="text-align: center; margin: 20px 0;">
+          <a href="${process.env.CLIENT_URL}/reset-password?token=${resetToken}" 
+             style="display: inline-block; padding: 12px 24px; background-color: #4ade80; color: white; text-decoration: none; border-radius: 4px;">
+            Reset Password
+          </a>
+        </p>
+        <p>This link will expire in 10 minutes.</p>
+        <p>Best regards,<br>The Islamic Fundraiser Team</p>
+      </div>
+    `
+  },
 }
