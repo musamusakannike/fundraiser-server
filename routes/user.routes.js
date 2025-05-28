@@ -16,10 +16,9 @@ const router = express.Router()
 // All routes are protected
 router.use(protect)
 
-// Superadmin only routes
 router.get("/admins", isSuperadmin, getAdmins)
 router.post("/create-admin", isSuperadmin, registerValidation, validate, createAdmin)
-router.put("/:id/role", isSuperadmin, updateUserRole)
+router.put("/:id/role", isAdminOrSuperadmin, updateUserRole)
 router.delete("/:id", isSuperadmin, deleteUser)
 
 // Admin and superadmin routes
