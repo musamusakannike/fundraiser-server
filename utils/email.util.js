@@ -135,11 +135,6 @@ export const emailTemplates = {
               <span style="color: #374151;">${applicationDetails.email}</span>
             </div>
             
-            <div style="margin-bottom: 15px;">
-              <strong style="color: #16a34a; display: inline-block; width: 100px;">Campaign:</strong>
-              <span style="color: #374151; font-weight: 600;">${applicationDetails.campaignTitle}</span>
-            </div>
-            
             <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #22c55e;">
               <strong style="color: #16a34a;">Description:</strong>
               <p style="color: #374151; margin: 10px 0 0; line-height: 1.6; background: white; padding: 15px; border-radius: 6px;">
