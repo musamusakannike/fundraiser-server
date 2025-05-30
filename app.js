@@ -11,6 +11,7 @@ import applicationRoutes from "./routes/application.routes.js"
 import notificationRoutes from "./routes/notification.routes.js"
 import messageRoutes from "./routes/message.routes.js"
 import dashboardRoutes from "./routes/dashboard.routes.js"
+import contactRoutes from "./routes/contact.routes.js"
 
 // Load environment variables
 dotenv.config()
@@ -45,6 +46,7 @@ app.use("/api/applications", applicationRoutes)
 app.use("/api/notifications", notificationRoutes)
 app.use("/api/messages", messageRoutes)
 app.use("/api/dashboard", dashboardRoutes)
+app.use("/api/contact", contactRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
