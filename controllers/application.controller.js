@@ -67,7 +67,7 @@ export const submitApplication = async (req, res) => {
       sender: req.user._id,
       type: "application_submitted",
       title: "New Application Submitted",
-      message: `A new application "${title}" has been submitted for campaign "${campaign?.title}"`,
+      message: `A new application "${title}" has been submitted for a campaign`,
       relatedTo: {
         model: "Application",
         id: application._id,
